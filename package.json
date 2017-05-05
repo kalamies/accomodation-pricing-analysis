@@ -1,0 +1,19 @@
+{
+  "name": "housing-pricing-analysis",
+  "description": "Housing pricing analysis",
+  "version": "0.0.1",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.15.2",
+    "firebase-admin": "^4.2.1",
+    "promise": "^7.1.1"
+  },
+  "repositories": [
+    {
+      "type": "git",
+      "url": "https://github.com/kalamies/housing-pricing-analysis.git"
+    }
+  ]
+}
