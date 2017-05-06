@@ -14,7 +14,7 @@ let app = express();
 
 // Initialize
 // let serviceAccount = require('./SECRET_acc/serviceAccountKey.json');
-let serviceAccount = ENV['FIREBASE_SERVICE_ACCOUNT_KEY'];
+let serviceAccount = process.env.FIREBASE_SERVICE_ACCOUNT_KEY;
 firebase.initializeApp({
   credential: firebase.credential.cert(serviceAccount),
   databaseURL: "https://housing-98e93.firebaseio.com"
