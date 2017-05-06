@@ -13,9 +13,10 @@ let capitalize = require('./server/modules/capitalize/capitalize.js');
 let app = express();
 
 // Initialize
-let serviceAccount = require('./SECRET_acc/serviceAccountKey.json');
+// let serviceAccount = require('./SECRET_acc/serviceAccountKey.json');
+let serviceAccount = OpenSSL::PKey::RSA.new(ENV['FIREBASE_SERVICE_ACCOUNT_KEY']);
 firebase.initializeApp({
-  credential: firebase.credential.cert(OpenSSL::PKey::RSA.new(ENV['FIREBASE_SERVICE_ACCOUNT_KEY'])),
+  credential: firebase.credential.cert(serviceAccount),
   databaseURL: "https://housing-98e93.firebaseio.com"
 });
 let ref = firebase.database().ref('housing/sold');
