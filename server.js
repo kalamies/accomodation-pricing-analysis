@@ -17,8 +17,8 @@ let app = express();
 // let serviceAccount = process.env.FIREBASE_SERVICE_ACCOUNT_KEY;
 firebase.initializeApp({
   credential: firebase.credential.cert({
-    private_key: process.env.FIREBASE_PRIVATE_KEY,
-    client_email: process.env.FIREBASE_CLIENT_EMAIL
+    "private_key": process.env.FIREBASE_PRIVATE_KEY,
+    "client_email": process.env.FIREBASE_CLIENT_EMAIL
   }),
   databaseURL: "https://housing-98e93.firebaseio.com"
 });
