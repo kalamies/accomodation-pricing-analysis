@@ -16,7 +16,7 @@ let app = express();
 // let serviceAccount = require('./SECRET_acc/serviceAccountKey.json');
 // let serviceAccount = process.env.FIREBASE_SERVICE_ACCOUNT_KEY;
 firebase.initializeApp({
-  credential: admin.credential.cert({
+  credential: firebase.credential.cert({
     private_key: process.env.FIREBASE_PRIVATE_KEY,
     client_email: process.env.FIREBASE_CLIENT_EMAIL
   }),
