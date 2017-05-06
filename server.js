@@ -15,7 +15,7 @@ let app = express();
 // Initialize
 let serviceAccount = require('./SECRET_acc/serviceAccountKey.json');
 firebase.initializeApp({
-  credential: firebase.credential.cert(private_key = OpenSSL::PKey::RSA.new(ENV['FIREBASE_SERVICE_ACCOUNT_KEY'])),
+  credential: firebase.credential.cert(OpenSSL::PKey::RSA.new(ENV['FIREBASE_SERVICE_ACCOUNT_KEY'])),
   databaseURL: "https://housing-98e93.firebaseio.com"
 });
 let ref = firebase.database().ref('housing/sold');
