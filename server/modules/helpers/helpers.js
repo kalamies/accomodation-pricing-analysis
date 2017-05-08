@@ -1,3 +1,7 @@
+/*
+ * Helpers
+*/
+
 // Firebase case sensitive, query with Capitalized format
 module.exports = {
   capitalizeString: (string) => {
