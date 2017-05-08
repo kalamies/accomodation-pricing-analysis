@@ -17,7 +17,6 @@ let env = process.env.NODE_ENV || 'dev';
 if (env === 'dev') require('dotenv').load();
 
 // Initialize Firebase
-let serviceAccount = require('./SECRET_acc/serviceAccountKey.json');
 firebase.initializeApp({
   credential: firebase.credential.cert({
     'private_key': process.env.FIREBASE_PRIVATE_KEY,
