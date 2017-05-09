@@ -21,8 +21,14 @@ module.exports = (app, ref) => {
   // TODO: Handle firebase data with promises to send all as response
   // No res sent yet
   app.get('/data/neighborhood/:hood', (req, res) => {
-    ref.orderByChild('neighborhood').equalTo(helpers.capitalizeString(req.params.hood)).on('child_added', (snapshot) => {
-      console.log(snapshot.val());
+    ref.orderByChild('neighborhood').equalTo(helpers.capitalizeString(req.params.hood)).once('value').then(function(snapshot) {
+      res.send(snapshot.val())
+    });
+  });
+
+  app.get('/data/postcode/:code', (req, res) => {
+    ref.orderByChild('postalcode').equalTo(helpers.capitalizeString(req.params.code)).once('value').then(function(snapshot) {
+      res.send(snapshot.val())
     });
   });
 }

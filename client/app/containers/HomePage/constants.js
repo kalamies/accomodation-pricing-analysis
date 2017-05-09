@@ -1,0 +1,2 @@
+export const SEARCH_UPDATE = 'SEARCH_UPDATE';
+export const LISTINGS_RECEIVE = 'LISTINGS_RECEIVE';
