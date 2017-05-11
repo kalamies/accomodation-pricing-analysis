@@ -6,29 +6,27 @@
 
 let helpers = require('../helpers/helpers.js');
 
-module.exports = (app, ref) => {
+module.exports = (app, SoldDb) => {
   // TODO: Make sure firebase has all required indexes
   app.get('/', (req, res) => {
-    res.send('try /data/snapshot for full snapshot (slow) OR /neighborhood/*yourPreferredNeighborhood* for neighborhood specific data (see node log)');
+    res.send('See routes.js for available routes.');
   });
 
   app.get('/data/snapshot', (req, res) => {
-    ref.once('value', (snapshot) => {
-      res.send(snapshot.val());
+    SoldDb.find({}, function (err, items) {
+        res.send(items);
     });
   });
 
-  // TODO: Handle firebase data with promises to send all as response
-  // No res sent yet
   app.get('/data/neighborhood/:hood', (req, res) => {
-    ref.orderByChild('neighborhood').equalTo(helpers.capitalizeString(req.params.hood)).once('value').then(function(snapshot) {
-      res.send(snapshot.val())
-    });
+    SoldDb.find({'neighborhood':req.params.hood}, function (err, items) {
+        res.send(items);
+    })
   });
 
   app.get('/data/postcode/:code', (req, res) => {
-    ref.orderByChild('postalcode').equalTo(helpers.capitalizeString(req.params.code)).once('value').then(function(snapshot) {
-      res.send(snapshot.val())
-    });
+    SoldDb.find({'postalcode':req.params.code}, function (err, items) {
+        res.send(items);
+    })
   });
 }

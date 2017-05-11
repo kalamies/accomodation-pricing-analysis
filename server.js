@@ -5,11 +5,18 @@
 'use strict';
 
 // Imports
-let firebase = require('firebase-admin');
-let express = require('express');
-let Promise = require('promise');
+const firebase = require('firebase-admin');
+const express = require('express');
+const Promise = require('promise');
+const mongoose = require('mongoose');
 
-let app = express();
+const app = express();
+
+// ENV
+const env = process.env.NODE_ENV || 'dev';
+
+// process.env vars
+if (env === 'dev') require('dotenv').load();
 
 // Add headers
 app.use(function (req, res, next) {
@@ -31,23 +38,15 @@ app.use(function (req, res, next) {
     next();
 });
 
-// ENV
-let env = process.env.NODE_ENV || 'dev';
+// Connect to mongo
+mongoose.Promise = global.Promise;
+mongoose.connect('mongodb://' + process.env.MONGODB_USER + ':' + process.env.MONGODB_PW + '@' + process.env.MONGODB_HOST_PORT + '/' + process.env.MONGODB_DB);
 
-if (env === 'dev') require('dotenv').load();
-
-// Initialize Firebase
-firebase.initializeApp({
-  credential: firebase.credential.cert({
-    'private_key': process.env.FIREBASE_PRIVATE_KEY,
-    'client_email': process.env.FIREBASE_CLIENT_EMAIL
-  }),
-  databaseURL: "https://housing-98e93.firebaseio.com"
-});
-let ref = firebase.database().ref('housing/sold');
+// Correct mongoose schema not mandatory while using for read only purposes
+const SoldDb = mongoose.model('Sold-item', new mongoose.Schema({}));
 
 // Routes
-require('./server/modules/routes/routes.js')(app, ref);
+require('./server/modules/routes/routes.js')(app, SoldDb);
 
 app.listen(3000, () => {
   console.log('localhost:3000!');
