@@ -2,13 +2,16 @@ import { createAction } from 'redux-actions'
 
 import {
   SEARCH_UPDATE,
-  LISTINGS_RECEIVE,
+  RESULTS_FETCH,
+  RESULTS_RECEIVE,
 } from './constants';
 
 export const updateSearch = createAction(SEARCH_UPDATE, (query) => ({
   query,
 }));
 
-export const receiveListings = createAction(LISTINGS_RECEIVE, (normalized) => ({
-  ...normalized,
+export const fetchResults = createAction(RESULTS_FETCH)
+
+export const receiveResults = createAction(RESULTS_RECEIVE, (results) => ({
+  results,
 }));

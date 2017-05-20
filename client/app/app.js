@@ -15,7 +15,9 @@ import { Provider } from 'react-redux';
 import { applyRouterMiddleware, Router, browserHistory } from 'react-router';
 import { syncHistoryWithStore } from 'react-router-redux';
 import { useScroll } from 'react-router-scroll';
+
 import 'sanitize.css/sanitize.css';
+import 'styles/main.scss';
 
 // Import root app
 import App from 'containers/App';
@@ -35,9 +37,6 @@ import configureStore from './store';
 
 // Import i18n messages
 import { translationMessages } from './i18n';
-
-// Import CSS reset and Global Styles
-import './global-styles';
 
 // Import root routes
 import createRoutes from './routes';

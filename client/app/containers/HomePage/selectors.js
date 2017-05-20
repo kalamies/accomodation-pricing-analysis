@@ -12,18 +12,7 @@ export const makeSelectFetching = () => createSelector(
   (substate) => substate.get('fetching')
 );
 
-export const makeSelectResult = () => createSelector(
+export const makeSelectResults = () => createSelector(
   makeSelectSearchData(),
-  (substate) => substate.get('result')
-);
-
-export const makeSelectEntities = () => createSelector(
-  makeSelectSearchData(),
-  (substate) => substate.get('entities')
-);
-
-export const makeSelectListings = () => createSelector(
-  makeSelectResult(),
-  makeSelectEntities(),
-  (results, entities) => results.map((id) => entities.listing[id])
+  (substate) => substate.get('results')
 );

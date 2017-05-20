@@ -10,30 +10,54 @@
  */
 
 import React from 'react';
+import styled from 'styled-components'
 import { connect } from 'react-redux';
 import { FormattedMessage } from 'react-intl';
 import { createStructuredSelector } from 'reselect'
 
+import Button from 'components/Button'
+import CenteredLayout from 'components/CenteredLayout'
+
 import { updateSearch } from './actions';
-import { makeSelectFetching, makeSelectQuery, makeSelectListings } from './selectors';
+import { makeSelectFetching, makeSelectQuery, makeSelectResults } from './selectors';
 import SearchBox from './SearchBox'
 import Results from './Results'
 import messages from './messages';
+import Logo from './Logo'
+import ContentArea from './ContentArea'
+import Spinner from './Spinner'
+
+const StyledButton = styled(Button)`
+  margin: auto;
+  margin-top: 2rem;
+`
 
 class HomePage extends React.PureComponent { // eslint-disable-line react/prefer-stateless-function
   render() {
-    const { fetching, query, listings, doSearch } = this.props
+    const { fetching, query, results, doSearch, showListings } = this.props
 
     return (
-      <h1>
-        <FormattedMessage {...messages.header} />
+      <CenteredLayout>
+        <ContentArea>
+          <Logo />
 
-        <SearchBox query={query} onChange={doSearch} />
+          {fetching && <Spinner />}
 
-        {fetching && <p>Loading...</p>}
+          <SearchBox query={query} onChange={doSearch} results={results.toJS()} />
 
-        <Results listings={listings} />
-      </h1>
+          <StyledButton
+            disabled={query.length !== 5}
+            onClick={(e) => {
+              e.preventDefault()
+              showListings(query)
+            }
+          }
+          >
+            Näytä kohteet
+          </StyledButton>
+
+        </ContentArea>
+      </CenteredLayout>
     );
   }
 }
@@ -41,11 +65,12 @@ class HomePage extends React.PureComponent { // eslint-disable-line react/prefer
 const mapStateToProps = createStructuredSelector({
   fetching: makeSelectFetching(),
   query: makeSelectQuery(),
-  listings: makeSelectListings(),
+  results: makeSelectResults(),
 });
 
 const mapDispatchToProps = (dispatch) => ({
   doSearch: (query) => dispatch(updateSearch(query)),
+  showListings: (postcode) => alert(postcode),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(HomePage);

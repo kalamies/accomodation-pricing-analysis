@@ -3,28 +3,32 @@ import { handleActions } from 'redux-actions';
 
 import {
   SEARCH_UPDATE,
-  LISTINGS_RECEIVE,
+  RESULTS_FETCH,
+  RESULTS_RECEIVE,
 } from './constants';
 
 const initialState = fromJS({
   query: '',
   fetching: false,
-  result: [],
-  entities: {},
+  results: [],
 });
 
 export const reducer = handleActions({
   [SEARCH_UPDATE]: (state, action) => (
     state
       .set('query', action.payload.query)
+      .set('results', fromJS([]))
+  ),
+
+  [RESULTS_FETCH]: (state) => (
+    state
       .set('fetching', true)
   ),
 
-  [LISTINGS_RECEIVE]: (state, action) => (
+  [RESULTS_RECEIVE]: (state, action) => (
     state
       .set('fetching', false)
-      .set('result', Object.keys(action.payload.result))
-      .set('entities', action.payload.entities)
+      .set('results', fromJS(action.payload.results))
   ),
 }, initialState);
 

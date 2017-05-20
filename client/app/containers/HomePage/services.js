@@ -1,3 +1,3 @@
 import { callApi } from 'utils/api';
 
-export const getByPostCode = (code) => callApi(`/data/postcode/${code}`);
+export const searchPostcode = (query) => callApi(`/postcodes?q=${query}`);

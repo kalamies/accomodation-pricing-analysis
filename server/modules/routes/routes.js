@@ -6,6 +6,8 @@
 
 let helpers = require('../helpers/helpers.js');
 
+var postinumerot = require('datasets-fi-postalcodes');
+
 module.exports = (app, SoldDb) => {
   // TODO: Make sure firebase has all required indexes
   app.get('/', (req, res) => {
@@ -29,4 +31,26 @@ module.exports = (app, SoldDb) => {
         res.send(items);
     })
   });
+
+  // query postcodes
+  app.get('/postcodes', (req, res) => {
+    const q = req.query.q && req.query.q.trim().toLowerCase()
+
+    const result = []
+
+    if(q && q.length >= 3) {
+      Object.keys(postinumerot).forEach((postcode) => {      
+        const name = postinumerot[postcode].toLowerCase()
+        
+        if(postcode.includes(q) || name.includes(q)) {
+          result.push({
+            postcode,
+            name: name[0].toUpperCase() + name.slice(1),  // capitalize first letter
+          })
+        }
+      })
+    }
+    
+    res.send(result);
+  })
 }

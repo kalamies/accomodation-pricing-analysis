@@ -1,28 +1,34 @@
 import { takeLatest, delay } from 'redux-saga';
-import { fork, call, put } from 'redux-saga/effects';
-import { normalize } from 'normalizr';
+import { fork, call, put, select } from 'redux-saga/effects';
 
 import {
   SEARCH_UPDATE,
+  RESULTS_FETCH,
 } from './constants';
-import { receiveListings } from './actions';
-import { getByPostCode } from './services';
-import * as schemas from 'schema';
+import { fetchResults, receiveResults } from './actions';
+import { makeSelectQuery } from './selectors'
+import { searchPostcode } from './services';
 
 function* doUpdateSearch(action) {
   yield call(delay, 500)
 
-  if (action.payload.query.length >= 5) {
-    const { response, error } = yield call(getByPostCode, action.payload.query);
+  if (action.payload.query.length >= 3 && action.payload.query.length < 5) {
+    yield put(fetchResults())
+  }
+}
 
-    if (response) {
-      yield put(receiveListings(normalize(response, schemas.listings)));
-    }
+function* doFetch() {
+  const query = yield select(makeSelectQuery())
+  const { response, error } = yield call(searchPostcode, query);
+
+  if (response) {
+    yield put(receiveResults(response));
   }
 }
 
 function* root() {
   yield fork(takeLatest, SEARCH_UPDATE, doUpdateSearch);
+  yield fork(takeLatest, RESULTS_FETCH, doFetch);
 }
 
 export default [

@@ -17,5 +17,8 @@
       "type": "git",
       "url": "https://github.com/kalamies/housing-pricing-analysis.git"
     }
-  ]
+  ],
+  "devDependencies": {
+    "datasets-fi-postalcodes": "git+https://github.com/theikkila/postinumerot.git"
+  }
 }
