@@ -14,6 +14,7 @@ import styled from 'styled-components'
 import { connect } from 'react-redux';
 import { FormattedMessage } from 'react-intl';
 import { createStructuredSelector } from 'reselect'
+import { push } from 'react-router-redux'
 
 import Button from 'components/Button'
 import CenteredLayout from 'components/CenteredLayout'
@@ -70,7 +71,7 @@ const mapStateToProps = createStructuredSelector({
 
 const mapDispatchToProps = (dispatch) => ({
   doSearch: (query) => dispatch(updateSearch(query)),
-  showListings: (postcode) => alert(postcode),
+  showListings: (postcode) => dispatch(push(`areas/${postcode}`)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(HomePage);

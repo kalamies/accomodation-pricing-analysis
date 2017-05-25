@@ -33,7 +33,25 @@ export default function createRoutes(store) {
 
         importModules.catch(errorLoading);
       },
-    }, {
+    }, 
+    {
+      path: '/areas/:postcode',
+      name: 'areas',
+      getComponent(nextState, cb) {
+        const importModules = Promise.all([
+          import('containers/AreaPage'),
+        ]);
+
+        const renderRoute = loadModule(cb);
+
+        importModules.then(([component]) => {
+          renderRoute(component);
+        });
+
+        importModules.catch(errorLoading);
+      },
+    }, 
+    {
       path: '*',
       name: 'notfound',
       getComponent(nextState, cb) {
